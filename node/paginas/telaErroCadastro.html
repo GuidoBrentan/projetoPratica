@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <script>
+        window.onload = alert("Você digitou algo errado! Tente reescrever a senha ou mude seu Usuario!");
+    </script>
+<body>
+<form action="http://localhost:3000/novoCadastro" method="POST">
+    <fieldset>
+        <label><u>Cadastro</u></labe><br><br>
+        <label id="organizarUsuario">Usuário:</label>
+        <input type="text" id="username" name="usuario"><br><br>
+        <label  >Senha:</label>
+        <input type="password" id="senha" name="senha"><br><br>
+        <label id="confirmar">Confirmar Senha:</label>
+        <input type="password" id="senha" name="confiSenha"><br><br><br>
+        <input id="Cadastrar" value="Cadastrar" type="submit" class="button">
+    </fieldset>
+</form>
+</body>
+</html>
