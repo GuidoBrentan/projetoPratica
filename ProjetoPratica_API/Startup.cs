@@ -28,10 +28,11 @@ namespace ProjetoPratica_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BancoContext>(
-                x => x.UseSqlServer(Configuration.GetConnectionString("SringConexaoSQLServer"))
+                x => x.UseSqlServer(Configuration.GetConnectionString("StringConexaoSQLServer"))
             );
             
             services.AddControllers();
+            services.AddScoped<IRepostitory, Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

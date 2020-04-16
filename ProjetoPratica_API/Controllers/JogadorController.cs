@@ -1,4 +1,8 @@
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProjetoPratica_API.Data;
+using ProjetoPratica_API.Models;
 
 namespace ProjetoPratica_API.Controllers
 {
@@ -6,38 +10,110 @@ namespace ProjetoPratica_API.Controllers
     [ApiController]
     public class JogadorController : Controller
     {
-        public JogadorController()
+        public IRepostitory Repo {get;}
+        public JogadorController(IRepostitory repo)
         {
+            this.Repo = repo;
             //construtor
         }
+
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok();
+            try
+            {
+                var result = await this.Repo.GetAllJogadoresAsync();
+                return Ok(result);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
+            }
         }
 
         [HttpGet("{Jogador}")]
-        public IActionResult Get(string Jogador)
+        public async Task<IActionResult> Get(int codJogador)
         {
-            return Ok();
+            try
+            {
+                var result = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                return Ok(result);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
+            }
         }
 
         [HttpPost]
-        public IActionResult post()
+        public async Task<IActionResult> post(Jogador modelo)
         {
-            return Ok();
+            try
+            {
+                this.Repo.Add(modelo);
+
+                if(await this.Repo.SaveChangesAsync())
+                    return Created($"/api/jogador/{modelo.codJogador}", modelo);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
+            }
+
+            return BadRequest();
         }
 
         [HttpPut("{Jogador}")]
-        public IActionResult put(string Jogador)
+        public async Task<IActionResult> put(int codJogador, Jogador modelo)
         {
-            return Ok();
+            try
+            {
+                //verifica se existe jogador a ser alterado
+                var jogador = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                
+                if(jogador == null)
+                    return NotFound();
+
+                this.Repo.Update(modelo);
+
+                if(await this.Repo.SaveChangesAsync())
+                {
+                    //return Ok();
+                    //pegar o jogador novamente, agora alterado, para devolver na rota abaixo
+                    jogador = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                    return Created($"/api/jogador/{modelo.nome}", jogador);
+                }
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
+            }
+
+            //retorna BadRequest caso não consiga alterar
+            return BadRequest();
         }
 
         [HttpDelete("{Jogador}")]
-        public IActionResult delete(string Jogador)
+        public async Task<IActionResult> delete(int codJogador)
         {
-            return Ok();
+            try
+            {
+                //verifica se existe o jogador a ser exclucodJogadoro
+                var jogador = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                if(jogador == null)
+                    return NotFound();
+
+                this.Repo.Delete(jogador);
+
+                if(await this.Repo.SaveChangesAsync())
+                    return Ok();
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
+            }
+
+            return BadRequest();
         }
     }
 }

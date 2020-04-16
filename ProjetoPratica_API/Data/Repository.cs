@@ -1,4 +1,7 @@
+using System.Linq;
 using System.Threading.Tasks;
+using ProjetoPratica_API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjetoPratica_API.Data
 {
@@ -31,6 +34,29 @@ namespace ProjetoPratica_API.Data
         {
             //throw new System.NotImplementedException();
             this.Context.Update(entity);
+        }
+
+        public async Task<Jogador[]> GetAllJogadoresAsync()
+        {
+            //throw new System.NotImplementedException();
+            //Retornar para uma query qualquer tipo de jogador
+            IQueryable<Jogador> consultaJogadores = this.Context.Jogador;
+
+            consultaJogadores = consultaJogadores.OrderBy(a => a.nome);
+
+            return await consultaJogadores.ToArrayAsync();
+        }
+
+        public async Task<Jogador> GetAllJogadoresAsyncByCod(int Id)
+        {
+            //throw new System.NotImplementedException();
+            //Retornar para uma query qualquer jogador
+            IQueryable<Jogador> consultaJogadores = this.Context.Jogador;
+
+            consultaJogadores = consultaJogadores.OrderBy(a => a.nome).Where(jogador => jogador.codJogador == Id);
+
+            //aqui efetivamente ocorre o select no BD
+            return await consultaJogadores.FirstOrDefaultAsync();
         }
     }
 }
