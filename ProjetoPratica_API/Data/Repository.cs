@@ -47,16 +47,51 @@ namespace ProjetoPratica_API.Data
             return await consultaJogadores.ToArrayAsync();
         }
 
-        public async Task<Jogador> GetAllJogadoresAsyncByCod(int Id)
+        public async Task<Jogador> GetAllJogadoresAsyncById(int Id)
         {
             //throw new System.NotImplementedException();
             //Retornar para uma query qualquer jogador
             IQueryable<Jogador> consultaJogadores = this.Context.Jogador;
 
-            consultaJogadores = consultaJogadores.OrderBy(a => a.nome).Where(jogador => jogador.codJogador == Id);
+            consultaJogadores = consultaJogadores.OrderBy(a => a.nome).Where(jogador => jogador.Id == Id);
 
             //aqui efetivamente ocorre o select no BD
             return await consultaJogadores.FirstOrDefaultAsync();
+        }
+
+        public async Task<Jogador> GetAllJogadoresAsyncByUsuario(string usuario)
+        {
+            //throw new System.NotImplementedException();
+            //Retornar para uma query qualquer jogador
+            IQueryable<Jogador> consultaJogadores = this.Context.Jogador;
+
+            consultaJogadores = consultaJogadores.OrderBy(a => a.nome).Where(jogador => jogador.usuario == usuario);
+
+            //aqui efetivamente ocorre o select no BD
+            return await consultaJogadores.FirstOrDefaultAsync();
+        }
+
+        public async Task<Pontuacao[]> GetAllPontuacaoAsync()
+        {
+            //throw new System.NotImplementedException();
+            //Retornar para uma query qualquer tipo de jogador
+            IQueryable<Pontuacao> consultaPontos = this.Context.Pontuacao;
+
+            consultaPontos = consultaPontos.OrderBy(a => a.Id);
+
+            return await consultaPontos.ToArrayAsync();
+        }
+
+        public async Task<Pontuacao> GetPontuacaoAsyncDeJogador(int codJogador)
+        {
+            //throw new System.NotImplementedException();
+            //Retornar para uma query qualquer jogador
+            IQueryable<Pontuacao> consultaPontos = this.Context.Pontuacao;
+
+            consultaPontos = consultaPontos.Where(pontuacao => pontuacao.codJogador == codJogador);
+
+            //aqui efetivamente ocorre o select no BD
+            return await consultaPontos.FirstOrDefaultAsync();
         }
     }
 }

@@ -31,12 +31,26 @@ namespace ProjetoPratica_API.Controllers
             }
         }
 
-        [HttpGet("{Jogador}")]
-        public async Task<IActionResult> Get(int codJogador)
+        [HttpGet("{JogadorId}")]
+        public async Task<IActionResult> Get(int JogadorId)
         {
             try
             {
-                var result = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                var result = await this.Repo.GetAllJogadoresAsyncById(JogadorId);
+                return Ok(result);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
+            }
+        }
+
+        [HttpGet("getJogadoresbyUsuario/{Usuario}")]
+        public async Task<IActionResult> Get(string Usuario)
+        {
+            try
+            {
+                var result = await this.Repo.GetAllJogadoresAsyncByUsuario(Usuario);
                 return Ok(result);
             }
             catch
@@ -53,7 +67,7 @@ namespace ProjetoPratica_API.Controllers
                 this.Repo.Add(modelo);
 
                 if(await this.Repo.SaveChangesAsync())
-                    return Created($"/api/jogador/{modelo.codJogador}", modelo);
+                    return Created($"/api/jogador/{modelo.Id}", modelo);
             }
             catch
             {
@@ -63,13 +77,13 @@ namespace ProjetoPratica_API.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{Jogador}")]
-        public async Task<IActionResult> put(int codJogador, Jogador modelo)
+        [HttpPut("{JogadorId}")]
+        public async Task<IActionResult> put(int JogadorId, Jogador modelo)
         {
             try
             {
                 //verifica se existe jogador a ser alterado
-                var jogador = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                var jogador = await this.Repo.GetAllJogadoresAsyncById(JogadorId);
                 
                 if(jogador == null)
                     return NotFound();
@@ -80,7 +94,7 @@ namespace ProjetoPratica_API.Controllers
                 {
                     //return Ok();
                     //pegar o jogador novamente, agora alterado, para devolver na rota abaixo
-                    jogador = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                    jogador = await this.Repo.GetAllJogadoresAsyncById(JogadorId);
                     return Created($"/api/jogador/{modelo.nome}", jogador);
                 }
             }
@@ -93,13 +107,13 @@ namespace ProjetoPratica_API.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{Jogador}")]
-        public async Task<IActionResult> delete(int codJogador)
+        [HttpDelete("{JogadorId}")]
+        public async Task<IActionResult> delete(int JogadorId)
         {
             try
             {
                 //verifica se existe o jogador a ser exclucodJogadoro
-                var jogador = await this.Repo.GetAllJogadoresAsyncByCod(codJogador);
+                var jogador = await this.Repo.GetAllJogadoresAsyncById(JogadorId);
                 if(jogador == null)
                     return NotFound();
 

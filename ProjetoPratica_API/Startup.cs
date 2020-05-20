@@ -28,8 +28,9 @@ namespace ProjetoPratica_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BancoContext>(
-                x => x.UseSqlServer(Configuration.GetConnectionString("StringConexaoSQLServer"))
-            );
+                x => x.UseSqlServer(Configuration.GetConnectionString("connectionString"))
+                
+                );
             
             services.AddControllers();
             services.AddScoped<IRepostitory, Repository>();

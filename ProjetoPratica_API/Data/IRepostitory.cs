@@ -13,6 +13,9 @@ namespace ProjetoPratica_API.Data
 
          //Métodos GET
          Task<Jogador[]> GetAllJogadoresAsync();
-         Task<Jogador> GetAllJogadoresAsyncByCod(int Id);
+         Task<Jogador> GetAllJogadoresAsyncById(int Id);
+         Task<Jogador> GetAllJogadoresAsyncByUsuario(string usuario);
+         Task<Pontuacao[]> GetAllPontuacaoAsync();
+         Task<Pontuacao> GetPontuacaoAsyncDeJogador(int codJogador);
     }
 }
