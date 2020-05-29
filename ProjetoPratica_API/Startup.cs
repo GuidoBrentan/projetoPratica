@@ -24,6 +24,8 @@ namespace ProjetoPratica_API
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,6 +33,15 @@ namespace ProjetoPratica_API
                 x => x.UseSqlServer(Configuration.GetConnectionString("connectionString"))
                 
                 );
+        
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                              builder =>
+                              {
+                                  builder.WithOrigins("http://localhost:8080");
+                              });
+        });
             
             services.AddControllers();
             services.AddScoped<IRepostitory, Repository>();
@@ -49,6 +60,8 @@ namespace ProjetoPratica_API
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {
