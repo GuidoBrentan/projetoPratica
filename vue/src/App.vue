@@ -1,8 +1,6 @@
 <template>
-<div>
-   <div class="corpo">
-    <router-view></router-view>
-  </div>
+<div class="body">
+<router-view></router-view>
 </div>
 </template>
 
@@ -12,9 +10,9 @@ import router from "./components/Routes";
 import {routes} from "./components/Routes.js";
 
 export default {
-  created(){
-    this.$router.push('/login');
-  }
+    mounted(){
+      this.$router.push('/login');
+    }
 }
 </script>
 

@@ -35,7 +35,7 @@ export default {
                                     this.$router.push('/telaPrincipal');
                                     else
                                     alert("Senha ou usuarios incorretos!")},
-                err => console.log(err)
+                err => alert("Senha ou usuarios incorretos!")
             )
         }
     }
