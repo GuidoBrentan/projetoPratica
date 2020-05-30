@@ -33,14 +33,13 @@ namespace ProjetoPratica_API
                 x => x.UseSqlServer(Configuration.GetConnectionString("connectionString"))
                 
                 );
-        
+
         services.AddCors(options =>
         {
             options.AddPolicy(name: MyAllowSpecificOrigins,
-                              builder =>
-                              {
-                                  builder.WithOrigins("http://localhost:8080");
-                              });
+                builder =>{
+                            builder.WithOrigins("http://localhost:8080");
+                        });
         });
             
             services.AddControllers();
