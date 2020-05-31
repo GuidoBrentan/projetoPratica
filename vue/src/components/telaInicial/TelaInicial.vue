@@ -1,14 +1,29 @@
 <template>
   <div class="corpoExterno">
     <div class="corpoInterno" id="primaria">
-      <img src="https://uploaddeimagens.com.br/images/002/682/319/original/titulo.png?1590942785" id="imagemTitulo"><br>
-      <fieldset>
+      <img src="https://uploaddeimagens.com.br/images/002/682/932/full/12.png?1590961632" id="imagemTitulo"><br>
+      <fieldset id="fieldEntrar">
         <button v-on:click="Anonimo()" id="botaoAnonimo">Anonimo</button><br>
         <button v-on:click="Login()" id="botaoLogin">Entrar</button><br>
         <button v-on:click="Cadastrar()" id="botaoCadastrar">Cadastrar</button>
       </fieldset>
     </div>
     <div class="corpoInterno" id="secundaria">
+      <div id="tituloSecundario">
+        <h1>Saiba Como Jogar!</h1>
+      </div>
+      <fieldset class="fieldSecundario" id="field1">
+        <img src="https://imagensemoldes.com.br/wp-content/uploads/2018/06/Emoji-Sorrindo-Muito-PNG-1200x1200.png" width="100" height="100">
+        <p class="textoSecundario">Localize as salas para entrar no jogo!</p>
+      </fieldset>
+      <fieldset class="fieldSecundario" id="field2">
+        <img src="https://cdn.shopify.com/s/files/1/1061/1924/files/Thinking_Face_Emoji.png?6135488989279264585" width="100" height="100">
+        <p class="textoSecundario">Pense muito para preencher as colunas!</p>
+      </fieldset>
+      <fieldset class="fieldSecundario" id="field3">
+        <img src="https://i.pinimg.com/originals/7b/4f/be/7b4fbe0a2ed7a58a6c2200566f845000.png" width="110" height="100">
+        <p class="textoSecundario">Se divirta vendo e validando as respostas do seus amigos!</p>
+      </fieldset>
     </div>
     <div class="corpoInterno" id="terciaria">
       <div id="divMensagem">
@@ -92,16 +107,18 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background-image: url("0001.jpg");
 }
 
 #secundaria{
     background: rgba(61, 148, 44, 0.534);
+    background-image: url("0002.jpg");
+    margin-top: -2px;
 }
 
 #terciaria{
     background: rgba(0, 0, 0, 0.534);
     color: azure;
-    margin-top: 0px;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
@@ -210,7 +227,7 @@ input{
     font-size: 18px;
 }
 
-fieldset{
+#fieldEntrar{
     text-align: center;
     padding: 40px;
     padding-top: 100px;
@@ -228,6 +245,44 @@ fieldset{
 #imagemTitulo{
   position: absolute;
   margin-top: -250px;
-  margin-left: 10px;
+  margin-left: 6px;
+}
+
+.fieldSecundario{
+  text-align: center;
+  padding: 40px;
+  height: 350px;
+  width: 220px;
+  border-radius: 10px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 15px;
+  background-color: rgb(191, 255, 62);
+  border-style: hidden;
+  position: absolute;
+  margin-top: 160px;
+}
+
+#field1{
+  margin-left: 120px;
+}
+
+#field2{
+  margin-left: 500px;
+}
+
+#field3{
+  margin-left: 870px;
+}
+
+#tituloSecundario{
+  position: absolute;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin-left: 515px;
+}
+
+.textoSecundario{
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 25px;
+  
 }
 </style>

@@ -36,6 +36,9 @@ export default {
             .catch (faz =>{
                 this.mensagemUsuario = null;
                 if(this.senha == this.senhaConfirmada){
+                    if(this.usuario == null || this.nome == null || this.email == null || this.senha == null)
+                        alert("Preecha todos os campos!");
+                    else{
                     this.mensagemSenha = null;
                     var linkASP = "https://localhost:5001/api/jogador"
                     var jogadorJson = JSON.parse('{"usuario": "' + this.usuario + '", "nome": "' + this.nome
@@ -45,9 +48,9 @@ export default {
                     this.$http
                     .post(linkASP, jogadorJson)
                     .then(alert("Jogador cadastrado!"))
-                    .catch(alert("Não foi possivel cadastar o jogador!"))
 
                     this.$router.push('/telaPrincipal');
+                    }
                 }else
                     this.mensagemSenha = "As senhas são diferentes";
                 })
@@ -65,6 +68,8 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background-image: url("0001.jpg");
+    margin-left: -12px;
 }
 fieldset{
     text-align: center;

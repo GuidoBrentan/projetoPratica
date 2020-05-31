@@ -54,6 +54,8 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background-image: url("0001.jpg");
+    margin-left: -12px;
 }
 fieldset{
     text-align: center;
