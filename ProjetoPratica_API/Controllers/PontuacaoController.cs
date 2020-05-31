@@ -44,5 +44,23 @@ namespace ProjetoPratica_API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> post(Pontuacao modelo)
+        {
+            try
+            {
+                this.Repo.Add(modelo);
+
+                if(await this.Repo.SaveChangesAsync())
+                    return Created($"/api/pontuacao/{modelo.Id}", modelo);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,"Falha no acesso ao banco de dados");
+            }
+
+            return BadRequest();
+        }
     }
 }

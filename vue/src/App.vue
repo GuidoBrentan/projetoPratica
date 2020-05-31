@@ -11,7 +11,7 @@ import {routes} from "./components/Routes.js";
 
 export default {
     mounted(){
-      this.$router.push('/login');
+      this.$router.push('/telaInicial');
     }
 }
 </script>

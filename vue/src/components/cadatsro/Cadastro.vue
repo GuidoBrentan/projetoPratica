@@ -1,12 +1,15 @@
 <template>
   <div class="corpo">
     <fieldset>
-        <input type="text" v-model="usuario" placeholder="Digite um nome de Usuario"><br>
+        <p id="mensagemUsuario">{{mensagemUsuario}}</p>
+        <input type="text" v-model="usuario" placeholder="Digite um nome de Usuario" id="primeiroInput"><br>
         <input type="text" v-model="nome" placeholder="Digite seu nome"><br>
         <input type="text" v-model="email" placeholder="Digite seu Email"><br>
-        <input type="password" v-model="senha" placeholder="Digite uma senha"><br>
+        <p id="mensagemSenha">{{mensagemSenha}}</p>
+        <input type="password" v-model="senha" placeholder="Digite uma senha" id="inputSenha"><br>
         <input type="password" v-model="senhaConfirmada" placeholder="Confirme sua senha"><br>
-        <button v-on:click="Cadastrar()">Cadastrar</button>
+        <button v-on:click="Cadastrar()">Cadastrar</button><br>
+        Já é cadastrado? <a href="http://localhost:8080/?#/login">Entre</a>
     </fieldset>
   </div>
 </template>
@@ -21,8 +24,7 @@ export default {
             senha: null,
             senhaConfirmada: null, 
             mensagemUsuario: null,
-            mensagemSenha: null,
-            dadoRetornado: null
+            mensagemSenha: null
         }
     },
     methods: {
@@ -30,25 +32,31 @@ export default {
             this.$http
             .get("https://localhost:5001/api/jogador/getJogadoresByUsuario/" + this.usuario)
             .then(res => res.json())
-            .then(dadosRetornados => {this.dadoRetornado = dadosRetornados},
-            err => console.log(err));
-
-            alert(this.dadoRetornado);
-
-             var linkASP = "https://localhost:5001/api/jogador"
-             var jogadorJson = JSON.parse('{"usuario": "' + this.usuario + '", "nome": "' + this.nome
+            .then(dadosRetornados => {this.mensagemUsuario = "Este usuário já está em uso"})
+            .catch (faz =>{
+                this.mensagemUsuario = null;
+                if(this.senha == this.senhaConfirmada){
+                    this.mensagemSenha = null;
+                    var linkASP = "https://localhost:5001/api/jogador"
+                    var jogadorJson = JSON.parse('{"usuario": "' + this.usuario + '", "nome": "' + this.nome
                                         + '", "email": "' + this.email + '", "senha": "' + this.senha
                                         + '", "estaConect": "N"}');
 
-             this.$http
-            .post(linkASP, jogadorJson)
-            .then(alert("Jogador cadastrado!"));
+                    this.$http
+                    .post(linkASP, jogadorJson)
+                    .then(alert("Jogador cadastrado!"))
+                    .catch(alert("Não foi possivel cadastar o jogador!"))
+
+                    this.$router.push('/telaPrincipal');
+                }else
+                    this.mensagemSenha = "As senhas são diferentes";
+                })
         }  
     }
 }
 </script>
 
-<style>
+<style scoped>
 .corpo{
     width: 100vw;
     height: 100vh;
@@ -62,7 +70,7 @@ fieldset{
     text-align: center;
     padding: 40px;
     padding-top: 100px;
-    height: 220px;
+    height: 440px;
     width: 220px;
     position: relative;
     border-radius: 10px;
@@ -81,6 +89,14 @@ input{
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+#primeiroInput{
+    margin-top: 100px;
+}
+
+#inputSenha{
+    margin-top: 20px;
+}
+
 button{
     margin-bottom: 40px;
     margin-top: 20px;
@@ -95,4 +111,21 @@ button{
     font-size: 18px;
 }
 
+#mensagemSenha{
+    font-size: 12px;
+    text-align: left;
+    margin-left: 20px;
+    color: red;
+    position: absolute;
+    margin-top: 2px;
+}
+
+#mensagemUsuario{
+    position: absolute;
+    font-size: 12px;
+    color: red;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 84px;
+}
 </style>

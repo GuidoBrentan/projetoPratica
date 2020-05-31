@@ -1,10 +1,18 @@
 <template>
 <div class="corpo">
     <fieldset>
-        <input type="text" v-model="usuario" placeholder="username"><br>
+        <p>{{mensagemErro}}</p>
+        <input type="text" v-model="usuario" placeholder="username" id="primeiroInput"><br>
         <input type="password" v-model="senha" placeholder="senha"><br>
         <button type="button" v-on:click="Conferir()">Entrar</button><br>
-        Não tem uma conta? <a href="http://localhost:8080/?#/cadastro">Cadastre-se</a>
+        Não tem uma conta? <a href="http://localhost:8080/?#/cadastro">Cadastre-se</a><br><br><br><br>
+        Siga-nos nas Redes Socias<br>
+        <div id="twitter">
+        <a href="https://twitter.com/GuidoBrentan"><img src="https://logodownload.org/wp-content/uploads/2014/09/twitter-logo-6.png" alt="some text" width=60 height=45></a>
+        </div>
+        <div id="git">
+        <a href="https://github.com/GuidoBrentan"><img src="https://pngimg.com/uploads/github/github_PNG40.png" alt="some text" width=60 height=60></a>
+        </div>
     </fieldset>
 </div>
 </template>
@@ -18,7 +26,8 @@ export default {
     data(){
         return {
             usuario: null,
-            senha: null
+            senha: null,
+            mensagemErro: null
         }
     },
     methods: {
@@ -29,14 +38,14 @@ export default {
             .then(dadosRetornados => {if(dadosRetornados.senha == this.senha)
                                     this.$router.push('/telaPrincipal');
                                     else
-                                    alert("Senha ou usuarios incorretos!")},
-                err => alert("Senha ou usuarios incorretos!")
+                                    this.mensagemErro = "Usuario ou senha incorretos"},
+                err => this.mensagemErro = "Usuario ou senha incorretos"
             )
         }
     }
 }
 </script>
-<style>
+<style scoped>
 .corpo{
     width: 100vw;
     height: 100vh;
@@ -50,7 +59,7 @@ fieldset{
     text-align: center;
     padding: 40px;
     padding-top: 100px;
-    height: 220px;
+    height: 440px;
     width: 220px;
     position: relative;
     border-radius: 10px;
@@ -58,7 +67,7 @@ fieldset{
     font-size: 15px;
     background-color: rgb(191, 255, 62);
     border-style: hidden;
-    }
+}
 
 input{
     height: 20px;
@@ -67,6 +76,10 @@ input{
     border-radius: 5px;
     border-style: none;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#primeiroInput{
+    margin-top: 100px;
 }
 
 button{
@@ -85,5 +98,24 @@ button{
 
 a:link{
 text-decoration:none;
+}
+
+#twitter{
+   position: absolute;
+   margin-top: 10px; 
+   margin-left: 35px;
+}
+
+#git{
+    margin-left: 75px;
+}
+
+p{
+    position: absolute;
+    font-size: 12px;
+    color: red;
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 84px;
 }
 </style>
