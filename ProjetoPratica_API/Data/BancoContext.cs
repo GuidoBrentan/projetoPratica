@@ -11,7 +11,6 @@ namespace ProjetoPratica_API.Data
         }
 
         public DbSet<Jogador> Jogador {get; set;}
-        public DbSet<Pontuacao> Pontuacao {get; set;}
         public DbSet<Mensagens> Mensagens {get; set;}
     }
 }

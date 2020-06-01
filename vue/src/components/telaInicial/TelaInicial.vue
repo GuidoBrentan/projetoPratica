@@ -38,8 +38,8 @@
         <h1 id="tituloTexto">O Stop É!</h1>
         <p class="pTexto">Adedonha!, Adedanha! ou Stop! é um jogo de conhecimentos gerais. Ele é muito comum entre as crianças e até mesmo entre adultos, que consiste em desenhar-se uma tabela em tópicos em um papel para cada jogador. E como deixar ele ainda mais divertido? Digitalizando é claro!</p>
         <p class="pTexto">Baseado no famoso jogo de papel e no também popular jogo da Web 'Stopots', o nosso jogo de Stop muda tudo, com uma interação ainda mais consistente, um jogo mais personalizado e com uma disputa ainda mais acirrada.</p>
-        <p class="pTexto">Com uma maneira fácil de jogar, O Stop! baseia-se em uma pessoa criar uma sala com tema, número de rodadas, tempo e se divertir com os amigos. No final de cada rodada, cada jogador avalia todas as palavras da rodada. Se o número de Confirmações for maior que o de Desqualificações, 10 pontos para a pessoa! Caso contrário, o número de Desqualificações for igual ou maior que o de Confirmações, o jogador não ganha nenhum ponto!</p>
-        <p class="pTexto">Bem-vindos ao Stop!! Entre, chame seus amigos e divirta-se!</p>
+        <p class="pTexto">Com uma maneira fácil de jogar, O Stoop! baseia-se em uma pessoa criar uma sala com tema, número de rodadas, tempo e se divertir com os amigos. No final de cada rodada, cada jogador avalia todas as palavras da rodada. Se o número de Confirmações for maior que o de Desqualificações, 10 pontos para a pessoa! Caso contrário, o número de Desqualificações for igual ou maior que o de Confirmações, o jogador não ganha nenhum ponto!</p>
+        <p class="pTexto">Bem-vindos ao Stoop!! Entre, chame seus amigos e divirta-se!</p>
       </div>
     </div>
   </div>

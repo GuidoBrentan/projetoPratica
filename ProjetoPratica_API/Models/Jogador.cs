@@ -7,6 +7,6 @@ namespace ProjetoPratica_API.Models
         public string nome {get; set; }
         public string email {get; set; }
         public string senha {get; set; }
-        public char estaConect {get; set; }
+        public int pontos {get; set; }
     }
 }

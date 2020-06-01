@@ -35,8 +35,11 @@ export default {
             this.$http
             .get("https://localhost:5001/api/jogador/getJogadoresByUsuario/" + this.usuario)
             .then(res => res.json())
-            .then(dadosRetornados => {if(dadosRetornados.senha == this.senha)
-                                    this.$router.push('/telaPrincipal');
+            .then(dadosRetornados => {if(dadosRetornados.senha == this.senha){
+                                        this.$session.start()
+                                        this.$session.set('valor', dadosRetornados)
+                                        this.$router.push('/telaPrincipal');
+                                    }                   
                                     else
                                     this.mensagemErro = "Usuario ou senha incorretos"},
                 err => this.mensagemErro = "Usuario ou senha incorretos"

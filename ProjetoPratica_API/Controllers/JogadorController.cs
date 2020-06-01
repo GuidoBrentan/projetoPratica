@@ -88,7 +88,7 @@ namespace ProjetoPratica_API.Controllers
                 if(jogador == null)
                     return NotFound();
 
-                this.Repo.Update(modelo);
+                this.Repo.UpdateJogador(modelo);
 
                 if(await this.Repo.SaveChangesAsync())
                 {
