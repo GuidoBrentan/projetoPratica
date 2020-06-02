@@ -3,6 +3,7 @@
     <div class="corpoInterno" id="primaria">
       <img src="https://uploaddeimagens.com.br/images/002/682/932/full/12.png?1590961632" id="imagemTitulo"><br>
       <fieldset id="fieldEntrar">
+        <img id="logo" src="https://uploaddeimagens.com.br/images/002/685/942/full/logo.bmp?1591108004" width="120" height="120"><br>
         <button v-on:click="Anonimo()" id="botaoAnonimo">Anonimo</button><br>
         <button v-on:click="Login()" id="botaoLogin">Entrar</button><br>
         <button v-on:click="Cadastrar()" id="botaoCadastrar">Cadastrar</button>
@@ -111,14 +112,13 @@ export default {
 }
 
 #secundaria{
-    background: rgba(61, 148, 44, 0.534);
     background-image: url("0002.jpg");
     margin-top: -2px;
 }
 
 #terciaria{
-    background: rgba(0, 0, 0, 0.534);
-    color: azure;
+    background-image: url("0003.jpg");
+    color: black;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
@@ -215,7 +215,7 @@ input{
 }
 
 #botaoAnonimo{
-    margin-top: 100px;
+    margin-top: 50px;
     padding: 2px;
     height: 40px;
     width: 100px;
@@ -238,7 +238,7 @@ input{
     border-radius: 10px;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 15px;
-    background-color: rgb(191, 255, 62);
+    background-color: yellow;
     border-style: hidden;
 }
 
@@ -284,5 +284,9 @@ input{
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 25px;
   
+}
+
+#logo{
+  margin-top: -50px;
 }
 </style>

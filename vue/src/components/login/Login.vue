@@ -1,6 +1,7 @@
 <template>
 <div class="corpo">
     <fieldset>
+        <a href="http://localhost:8080/?#/telaInicial"><img id="logo" src="https://uploaddeimagens.com.br/images/002/685/942/full/logo.bmp?1591108004" width="120" height="120"></a><br>
         <p>{{mensagemErro}}</p>
         <input type="text" v-model="usuario" placeholder="username" id="primeiroInput"><br>
         <input type="password" v-model="senha" placeholder="senha"><br>
@@ -70,7 +71,7 @@ fieldset{
     border-radius: 10px;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 15px;
-    background-color: rgb(191, 255, 62);
+    background-color: yellow;
     border-style: hidden;
 }
 
@@ -107,7 +108,7 @@ text-decoration:none;
 
 #twitter{
    position: absolute;
-   margin-top: 10px; 
+   margin-top: 6px; 
    margin-left: 35px;
 }
 
@@ -122,5 +123,10 @@ p{
     text-align: left;
     margin-left: 20px;
     margin-top: 84px;
+}
+
+#logo{
+    margin-bottom: -60px;
+    margin-top: -40px;
 }
 </style>

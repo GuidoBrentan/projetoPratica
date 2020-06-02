@@ -2,7 +2,7 @@
   <div id="corpo">
     <fieldset id="jogo">
       <div id="txtJogador">
-        <p>{{txtJogador}}</p>
+        <p>{{txtJogador}} <img id="imgConfig" src="https://image.flaticon.com/icons/png/512/45/45712.png" width="30" height="30"> <img id="imgInfo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Info_Simple_bw.svg/1200px-Info_Simple_bw.svg.png" width="30" height="30"></p>
       </div>
     </fieldset>
   </div>
@@ -23,7 +23,6 @@ export default {
     var divisao = this.jogador.pontos / 100;
     divisao = Math.trunc(divisao);
 
-    alert(divisao);
     switch(divisao){
       case 0: this.txtNivel = "Iniciante";break;
       case 1: this.txtNivel = "Aspirante";break;
@@ -33,7 +32,7 @@ export default {
       case 5: this.txtNivel = "Doutor";break;
     }
     if(divisao >= 6)
-      this.txtNivel = "Excpert"
+      this.txtNivel = "Expert"
 
     this.txtJogador = "Usuario: " + this.jogador.usuario + 
                       " | Pontuação: " + this.jogador.pontos + 
@@ -61,7 +60,6 @@ export default {
   background-color: rgba(191, 255, 62, 0.459);
   margin-right: 20px;
   border: none;
-  border-radius: 10px;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 15px;
 }
@@ -69,12 +67,28 @@ export default {
 #txtJogador{
   background-color: yellow;
   height: 50px;
-  margin-top: -16px;
-  width: 600px;
+  width: 611px;
+  padding: 5px;
+  position: absolute;
+  margin-left: -10px;
+  margin-top: -5px;
 }
 
 p{
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 15px;
+  margin-left: 20px;
+}
+
+#imgConfig{
+  margin-left: 470px;
+  margin-top: -30px;
+  margin-bottom: 5px;
+}
+
+#imgInfo{
+  margin-left: 520px;
+  margin-top: -38px;
+  margin-bottom: 30px;
 }
 </style>

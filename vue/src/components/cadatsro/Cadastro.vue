@@ -1,6 +1,7 @@
 <template>
   <div class="corpo">
     <fieldset>
+        <a href="http://localhost:8080/?#/telaInicial"><img id="logo" src="https://uploaddeimagens.com.br/images/002/685/942/full/logo.bmp?1591108004" width="120" height="120"></a><br>
         <p id="mensagemUsuario">{{mensagemUsuario}}</p>
         <input type="text" v-model="usuario" placeholder="Digite um nome de Usuario" id="primeiroInput"><br>
         <input type="text" v-model="nome" placeholder="Digite seu nome"><br>
@@ -81,7 +82,7 @@ fieldset{
     border-radius: 10px;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 15px;
-    background-color: rgb(191, 255, 62);
+    background-color: yellow;
     border-style: hidden;
     }
 
@@ -132,5 +133,10 @@ button{
     text-align: left;
     margin-left: 20px;
     margin-top: 84px;
+}
+
+#logo{
+    margin-bottom: -60px;
+    margin-top: -50px;
 }
 </style>
