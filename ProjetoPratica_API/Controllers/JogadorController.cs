@@ -78,25 +78,11 @@ namespace ProjetoPratica_API.Controllers
         }
 
         [HttpPut("{JogadorId}")]
-        public async Task<IActionResult> put(int JogadorId, Jogador modelo)
+        public async Task<IActionResult> put ([FromBody] Jogador jogador)
         {
             try
             {
-                //verifica se existe jogador a ser alterado
-                var jogador = await this.Repo.GetAllJogadoresAsyncById(JogadorId);
-                
-                if(jogador == null)
-                    return NotFound();
-
-                this.Repo.UpdateJogador(modelo);
-
-                if(await this.Repo.SaveChangesAsync())
-                {
-                    //return Ok();
-                    //pegar o jogador novamente, agora alterado, para devolver na rota abaixo
-                    jogador = await this.Repo.GetAllJogadoresAsyncById(JogadorId);
-                    return Created($"/api/jogador/{modelo.nome}", jogador);
-                }
+                this.Repo.Update(jogador);
             }
             catch
             {

@@ -8,7 +8,6 @@ namespace ProjetoPratica_API.Data
          //Métodos Genéricos
          void Add<T>(T entity) where T: class;
          void Update<T>(T entity) where T: class;
-         Jogador UpdateJogador(Jogador modelo);
          void Delete<T>(T entity) where T: class;
          Task<bool> SaveChangesAsync(); 
 

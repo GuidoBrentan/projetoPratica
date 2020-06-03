@@ -36,15 +36,6 @@ namespace ProjetoPratica_API.Data
             this.Context.Update(entity);
         }
 
-        public Jogador UpdateJogador(Jogador modelo)
-        {
-            Jogador jogadorBd = modelo;
-
-            Context.SaveChangesAsync();
-
-            return jogadorBd;
-        }
-
         public async Task<Jogador[]> GetAllJogadoresAsync()
         {
             //throw new System.NotImplementedException();

@@ -50,7 +50,14 @@ export default {
                     .post(linkASP, jogadorJson)
                     .then(alert("Jogador cadastrado!"))
 
-                    this.$router.push('/telaPrincipal');
+                    this.$http
+                    .get("https://localhost:5001/api/jogador/getJogadoresByUsuario/" + this.usuario)
+                    .then(res => res.json())
+                    .then(dadosRetornados => {
+                        this.$session.start()
+                        this.$session.set('valor', dadosRetornados)
+                        this.$router.push('/telaPrincipal');
+                    })
                     }
                 }else
                     this.mensagemSenha = "As senhas são diferentes";
