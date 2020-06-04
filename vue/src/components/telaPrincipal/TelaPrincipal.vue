@@ -5,7 +5,7 @@
         <p>{{txtJogador}} <img id="imgConfig" src="https://image.flaticon.com/icons/png/512/45/45712.png" width="30" height="30"></p>
       </div>
       <div id="txtUsuario">
-        <img id="imgUser" src="https://lh3.googleusercontent.com/proxy/qYsikM3_Toawt6aDxJ7t9-KXe0XbeUhVjSVs0S-lqTpY2MRfXGFTaPOyfj2engK6iCV0JXVaJ34550RsQwJJqv9QnZ1Bg_QZNyVyUGVZd31oTXUYpGA" width="100px" height="100px">
+        <img id="imgUser" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png" width="100px" height="100px">
         <u>{{txtUsuario}}</u><br>
         <button id="buttonSair" v-on:click="Sair()">-> Sair</button>
       </div>
