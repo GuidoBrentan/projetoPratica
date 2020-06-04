@@ -70,7 +70,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #corpo{
     width: 100vw;
     height: 100vh;
