@@ -75,7 +75,35 @@ export default {
     }
 }
 </script>
+<style>
+.palavra{
+    margin-right: 40px;
+    margin-left: 40px;
+    height: 20px;
+    padding: 7px;
+    border-radius: 5px;
+    border-style: none;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
+.palavra1{
+    margin-right: 0px;
+    height: 20px;
+    padding: 7px;
+    border-radius: 5px;
+    border-style: none;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+input{
+    height: 20px;
+    padding: 7px;
+    margin-bottom: 7px;
+    border-radius: 5px;
+    border-style: none;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+</style>
 <style scoped>
 #corpo{
     width: 100vw;
@@ -99,15 +127,6 @@ export default {
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-input{
-    height: 20px;
-    padding: 7px;
-    margin-bottom: 7px;
-    border-radius: 5px;
-    border-style: none;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
 .number{
     width: 60px;
 }
@@ -124,25 +143,6 @@ button{
     color: aliceblue;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 18px;
-}
-
-.palavra{
-    margin-right: 40px;
-    margin-left: 40px;
-    height: 20px;
-    padding: 7px;
-    border-radius: 5px;
-    border-style: none;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
-.palavra1{
-    margin-right: 0px;
-    height: 20px;
-    padding: 7px;
-    border-radius: 5px;
-    border-style: none;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .palavra0{
