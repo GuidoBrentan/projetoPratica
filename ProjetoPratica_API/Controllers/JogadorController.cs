@@ -93,6 +93,27 @@ namespace ProjetoPratica_API.Controllers
             return BadRequest();
         }
 
+        [HttpPut("updateJogador/{Id}")]
+        public async Task<ActionResult<dynamic>> Update([FromBody]Jogador model, int Id)
+        {       
+            try
+            {
+                if(await Repo.GetAllJogadoresAsyncById(Id) == null)
+                   return NotFound();
+
+                var jogador = Repo.Update(model);
+                
+                return Ok(new
+                {
+                    jogador = jogador,
+                });
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpDelete("{JogadorId}")]
         public async Task<IActionResult> delete(int JogadorId)
         {

@@ -1,15 +1,16 @@
 <template>
   <div id="corpo">
       <fieldset id="jogo">
-          <h1>Crie sua Sala</h1>
+        <a href="http://localhost:8080/?#/telaPrincipal"><img id="imgVoltar" src="https://image.flaticon.com/icons/png/512/60/60577.png" width="30px" height="30px"></a><h1>Crie sua Sala</h1>
         <input type="text" v-model="nomeDaSala" placeholder="Digite o nome da sala" id="nomeDaSala"><br>
         <label>Digite o número de rodadas: </label><input type="number" class="number" v-model="numeroDeRodadas" placeholder="1 a 10"><br>
         <label>Digite o número Máximo de Jogadores: </label><input type="number" class="number" v-model="numeroMaxJogadores" placeholder="1 a 8">
-        <p>Adicione as colunas para o jogo</p>
+        <p id="txtAdicionar"> Adicione as colunas para o jogo</p>
         <input type="text" class="palavra0" id="a0" placeholder="Digite o tema 1">
         <span v-for="item of items" v-bind:key="item[0]">
             <span v-html="item[0]"></span>
         </span><br>
+        <p id="mensagemErro">{{mensagemErro}}</p><br>
         <button v-on:click="Add()" id="botaoAdd">+</button>
         <button v-on:click="Remove()">-</button>
         <button v-on:click="Criar()">Criar</button>
@@ -30,7 +31,8 @@ export default {
             items:[],
             item:['NEW VALUE'],
             palavras: [],
-            socket: null
+            socket: null,
+            mensagemErro: null
         }
     },
 
@@ -38,6 +40,8 @@ export default {
         Add(){
             if(this.contador < 9){
                 this.contador++;
+                this.mensagemErro = null;
+                
                 if(this.contador == 1){
                     this.item=['<input type="text" class="palavra1" id="a' + this.contador + '" placeholder="Digite o tema ' + (this.contador + 1) + '"><br>'];
                     this.items.push(this.item);
@@ -49,15 +53,16 @@ export default {
                 this.items.push(this.item);
                 }
             }else
-                alert("Número maxímo de colunas já obtido!");
+                this.mensagemErro = "Número maxímo de colunas já obtido!";
         },
 
         Remove(){
             if(this.contador >= 1){
+                this.mensagemErro = null;
                 this.items.pop();
                 this.contador--;
             }else
-                alert("Mínimo de colunas já alcançado");
+                this.mensagemErro = "Número mínimo de colunas já obtido!";
         },
 
         Criar(){
@@ -65,12 +70,23 @@ export default {
 
             for(var i = 0; i <= this.contador; i++)
                 this.palavras[i] = document.getElementById("a" + i).value;
-                alert(this.palavras);
+
             this.socket = socket_cliente('http://localhost:3000');
             var objeto= {nomeDaSala: this.nomeDaSala, numeroDeRodadas: this.numeroDeRodadas,
-                         numeroMaxJogadores: this.numeroMaxJogadores, palavras: this.palavras};
+                         numeroMaxJogadores: this.numeroMaxJogadores, palavras: this.palavras, contador: 1};
             
-            this.socket.emit('Dados',objeto);
+            this.socket.emit('pedidoDados', null);
+            this.socket.on('getDados', data => {
+            if(data == null)
+                this.socket.emit('Dados',objeto);
+            else{
+                for(dado in data)
+                    if(dado.nomeDaSala == this.nomeDaSala)
+                        alert("Esse nome de sala já está em uso!");
+                    else
+                        this.socket.emit('Dados',objeto);
+            }
+        });
         }
     }
 }
@@ -154,13 +170,26 @@ button{
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-p{
+#txtAdicionar{
     margin-top: 0px;
 }
 
 #nomeDaSala{
     margin-top: 0px;
     margin-bottom: 15px;
+}
+
+#mensagemErro{
+    position: relative;
+    font-size: 12px;
+    color: red;
+    margin-top: -5px;
+    margin-bottom: -20px;
+}
+
+#imgVoltar{
+    position: absolute;
+    margin-left: -300px;
 }
 h1{
     margin-top: -3px;

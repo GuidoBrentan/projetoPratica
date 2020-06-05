@@ -9,6 +9,7 @@ namespace ProjetoPratica_API.Data
          void Add<T>(T entity) where T: class;
          void Update<T>(T entity) where T: class;
          void Delete<T>(T entity) where T: class;
+         Jogador Update(Jogador jogador);
          Task<bool> SaveChangesAsync(); 
 
          //Métodos GET

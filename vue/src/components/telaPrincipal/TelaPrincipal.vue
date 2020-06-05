@@ -11,7 +11,7 @@
       </div>
       <div id="botoes">
         <button class="jogar" id="botaoCriar" v-on:click="Criar()">Criar</button><br>
-        <button class="jogar" id="botaoEntrar">Entrar</button>
+        <button class="jogar" id="botaoEntrar" v-on:click="Entrar()">Entrar</button>
       </div>
     </fieldset>
   </div>
@@ -65,6 +65,10 @@ export default {
 
     Criar(){
       this.$router.push('/telaCriar');
+    },
+
+    Entrar(){
+      this.$router.push('/telaEntrar');
     }
   }
 }

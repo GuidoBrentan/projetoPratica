@@ -35,7 +35,20 @@ namespace ProjetoPratica_API.Data
             //throw new System.NotImplementedException();
             this.Context.Update(entity);
         }
+        public Jogador Update(Jogador jogador)
+        {
+            var jogadorDb = GetJogadorById(jogador.Id);
+            
+            jogadorDb.Id = jogador.Id;
+            jogadorDb.usuario = jogador.usuario;
+            jogadorDb.nome = jogador.nome;
+            jogadorDb.email = jogador.email;
+            jogadorDb.senha = jogador.senha;
+            jogadorDb.pontos = jogador.pontos;
 
+            Context.SaveChanges();
+            return jogadorDb;
+        }
         public async Task<Jogador[]> GetAllJogadoresAsync()
         {
             //throw new System.NotImplementedException();
@@ -45,6 +58,15 @@ namespace ProjetoPratica_API.Data
             consultaJogadores = consultaJogadores.OrderBy(a => a.nome);
 
             return await consultaJogadores.ToArrayAsync();
+        }
+
+        private Jogador GetJogadorById(int Id)
+        {
+            IQueryable<Jogador> consultaJogadores = this.Context.Jogador;
+
+            consultaJogadores = consultaJogadores.OrderBy(a => a.nome).Where(jogador => jogador.Id == Id);
+
+            return consultaJogadores.First();
         }
 
         public async Task<Jogador> GetAllJogadoresAsyncById(int Id)
