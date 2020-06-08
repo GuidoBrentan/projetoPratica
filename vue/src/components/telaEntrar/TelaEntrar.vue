@@ -4,7 +4,7 @@
           <a href="http://localhost:8080/?#/telaPrincipal"><img id="imgVoltar" src="https://image.flaticon.com/icons/png/512/60/60577.png" width="30px" height="30px"></a>
           <div id="sala">
             <input type="search" class="filtro" placeholder="Pesquise aqui..." v-model="filtro">
-            <div v-for="data of FiltraSalas"  id="caixaSala">
+            <div v-for="data of FiltraSalas"  id="caixaSala" v-on:dblclick="Entrar(data.nomeDaSala)">
                 <div>
                     {{data.nomeDaSala}}
                 </div>
@@ -59,6 +59,12 @@ export default {
         }else
             return this.salas;
         }   
+    },
+
+    methods: {
+        Entrar(sala){
+            alert(sala);
+        }
     }
 }   
 </script>
