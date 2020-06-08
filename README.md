@@ -6,11 +6,15 @@ IMPORTANTE!
 Módulos necessários para cada aplicação:
 
 --Node:
-npm install Socket.io -- save;
+
+npm install Socket.io -- save
 
 --Vue:
+
 npm install vue-resource --save
+
 npm insatll vue-router --save
+
 npm install vue-session --save
 
 ASP.Net:
