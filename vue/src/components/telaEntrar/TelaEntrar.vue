@@ -1,6 +1,7 @@
 <template>
   <div class="corpo">
       <fieldset>
+          <a href="http://localhost:8080/?#/telaPrincipal"><img id="imgVoltar" src="https://image.flaticon.com/icons/png/512/60/60577.png" width="30px" height="30px"></a>
           <div id="sala">
             <input type="search" class="filtro" placeholder="Pesquise aqui..." v-model="filtro">
             <div v-for="data of FiltraSalas"  id="caixaSala">
@@ -20,6 +21,12 @@
                     {{data.palavras.length}}
                 </div>
             </div>
+          </div>
+          <div id="texto">
+              <h1>Entre no Jogo</h1>
+              <p>Clique duas vezes na sala que deseja entrar. Se quiser, pesquise a sala que quiser participar</p>
+              <p>E <b>lembre-se</b>! Nada de usar palavras de baixo calão ou ofender os outros usuarios.</p>
+              <p>Escreva o máximo de palavras que conseguir, faça pontos e vença seus competidores! <b>Divirta-se</b>!</p> 
           </div>
       </fieldset>
   </div>
@@ -101,7 +108,7 @@ fieldset{
 }
 
 #sala{
-    max-height: 490px;
+    height: 450px;
     width: 180px;
     overflow: auto;
 }
@@ -114,5 +121,12 @@ fieldset{
     border-radius: 5px;
     border-style: none;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#texto{
+    position: absolute;
+    margin-left: 200px;
+    margin-top: -470px;
+    width: 350px;
 }
 </style>

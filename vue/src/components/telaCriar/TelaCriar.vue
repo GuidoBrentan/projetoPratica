@@ -75,18 +75,14 @@ export default {
             var objeto= {nomeDaSala: this.nomeDaSala, numeroDeRodadas: this.numeroDeRodadas,
                          numeroMaxJogadores: this.numeroMaxJogadores, palavras: this.palavras, contador: 1};
             
-            this.socket.emit('pedidoDados', null);
-            this.socket.on('getDados', data => {
-            if(data == null)
-                this.socket.emit('Dados',objeto);
-            else{
-                for(dado in data)
-                    if(dado.nomeDaSala == this.nomeDaSala)
-                        alert("Esse nome de sala já está em uso!");
-                    else
-                        this.socket.emit('Dados',objeto);
-            }
-        });
+            this.socket.emit('Dados', objeto);
+            this.socket.on('resultado', data =>{
+                if(data == 'erro')
+                    alert("Este nome de sala já está em uso!");
+
+                if(data == 'certo')
+                    alert("Sala criada com sucesso!");
+            })
         }
     }
 }

@@ -11,13 +11,23 @@ Socketio.on("connection", socket => {
      });
 
      socket.on('Dados', data => {
-          Objeto.push(data);
-          
-          if(data.contador <= data.numeroMaxJogadores)
-               socket.join(data.nomeDaSala);
+          var valida = true;
+
+          if(Objeto.length == 0)
+               valida = true;
           else
-               data.contador++;
-               
+               for(var i = 0;(i < Objeto.length) && valida; i++)
+                    if(Objeto[i].nomeDaSala == data.nomeDaSala)
+                         valida = false;
+                    else
+                         valida = true;
+
+          if(valida){
+               Objeto.push(data);
+               socket.emit('resultado', 'certo');
+          }else
+               socket.emit('resultado', 'erro');
+
           Socketio.in('atualizar').emit('getDados', Objeto);
      });
 });
