@@ -1,5 +1,6 @@
 # projetoPratica
 Projeto de Pratica primeiro semestre de 2020
+
 IMPORTANTE!
 
 Módulos necessários para cada aplicação:
