@@ -63,7 +63,8 @@ export default {
 
     methods: {
         Entrar(sala){
-            alert(sala);
+            this.$session.set('sala', sala);
+            this.$router.push('/telajogar');
         }
     }
 }   

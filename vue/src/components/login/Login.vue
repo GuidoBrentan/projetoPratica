@@ -38,7 +38,7 @@ export default {
             .then(res => res.json())
             .then(dadosRetornados => {if(dadosRetornados.senha == this.senha){
                                         this.$session.start()
-                                        this.$session.set('valor', dadosRetornados)
+                                        this.$session.set('jogador', dadosRetornados)
                                         this.$router.push('/telaPrincipal');
                                     }                   
                                     else

@@ -31,7 +31,7 @@ export default {
   mounted(){
     if(this.$session.exists())
     {
-      this.jogador = this.$session.get('valor');
+      this.jogador = this.$session.get('jogador');
       var divisao = this.jogador.pontos / 100;
       divisao = Math.trunc(divisao);
 

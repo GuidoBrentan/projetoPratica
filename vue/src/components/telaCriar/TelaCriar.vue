@@ -32,7 +32,8 @@ export default {
             item:['NEW VALUE'],
             palavras: [],
             socket: null,
-            mensagemErro: null
+            mensagemErro: null,
+            jogadores: []
         }
     },
 
@@ -73,15 +74,19 @@ export default {
 
             this.socket = socket_cliente('http://localhost:3000');
             var objeto= {nomeDaSala: this.nomeDaSala, numeroDeRodadas: this.numeroDeRodadas,
-                         numeroMaxJogadores: this.numeroMaxJogadores, palavras: this.palavras, contador: 1};
+                         numeroMaxJogadores: this.numeroMaxJogadores, palavras: this.palavras, contador: 0,
+                         jogadores: this.jogadores};
             
             this.socket.emit('Dados', objeto);
             this.socket.on('resultado', data =>{
                 if(data == 'erro')
                     alert("Este nome de sala já está em uso!");
 
-                if(data == 'certo')
+                if(data == 'certo'){
                     alert("Sala criada com sucesso!");
+                    this.$session.set('sala', this.nomeDaSala);
+                    this.$router.push('/telaJogar');
+                }
             })
         }
     }
