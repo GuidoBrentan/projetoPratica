@@ -9,10 +9,13 @@
                     </div>
                 </div>
                 <div id="colunas">
-                    <h1>Preencha as colunas</h1>
+                    <h1>Preencha</h1>
                     <div v-for="input of this.items" v-bind:key="input" id='inputJogador'>
                         <span v-html="input"></span>
                     </div>
+                </div>
+                <div>
+                    
                 </div>
             </fieldset>
         </div>
@@ -60,21 +63,49 @@ export default {
         this.socket.emit('entrar', objSocket);
         this.socket.on('dadosDaSala', dados => {
             if(dados == 'erro'){
-                alert("Sala lotada!")
+                alert("Sala lotada!");
                 this.$router.push('/telaEntrar');
-            }else{
+            }else
                 this.dadosDaSala = dados;
 
-                for(var i = 0; i < dados.palavras.length; i++){
-                    var input = "<input type='text' id='"+ dados.palavras[i] + "' placeholder='" + dados.palavras[i] + "'>";
+            if(this.items.length == 0)
+                for(var i = 0; i < this.dadosDaSala.palavras.length; i++){
+                    var input = "<input type='text' id='"+ this.dadosDaSala.palavras[i] + "' placeholder='" + this.dadosDaSala.palavras[i] + "'>";
                     this.items.push(input);
-                }
-            }
+        }
         });
     }
 }
 </script>
+<style>
+.palavra{
+    margin-right: 40px;
+    margin-left: 40px;
+    height: 20px;
+    padding: 7px;
+    border-radius: 5px;
+    border-style: none;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
+.palavra1{
+    margin-right: 0px;
+    height: 20px;
+    padding: 7px;
+    border-radius: 5px;
+    border-style: none;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+input{
+    height: 20px;
+    padding: 7px;
+    margin-bottom: 7px;
+    border-radius: 5px;
+    border-style: none;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+</style>
 <style scoped>
 #div{
     width: 1355px;
@@ -140,6 +171,7 @@ p{
 #colunas{
     float: right;
     margin-top: -500px;
-    margin-right: 100px;
+    margin-right: 200px;
+    text-align: center;
 }
 </style>

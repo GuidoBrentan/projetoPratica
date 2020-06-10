@@ -11,18 +11,19 @@ Socketio.on("connection", socket => {
      });
 
      socket.on('entrar', objSocket => {
-          for(var i = 0; i < Objeto.length; i++)
-               if(Objeto[i].nomeDaSala == objSocket.nomeDaSala){
-                    if(Objeto[i].contador < Objeto[i].numeroMaxJogadores){
+     for(var i = 0; i < Objeto.length; i++)
+          if(Objeto[i].nomeDaSala == objSocket.nomeDaSala){
+               if(Objeto[i].contador < Objeto[i].numeroMaxJogadores &&
+                  !Objeto[i].jogadores.includes(objSocket.usuario)){
                          socket.join(Objeto[i].nomeDaSala);
                          Objeto[i].contador++;
                          Objeto[i].jogadores.push(objSocket.usuario);
-                         socket.emit('dadosDaSala', Objeto[i]);
-                    }else{
-                         socket.emit('dadosDaSala', 'erro');
-                    }
-                    Socketio.in(Objeto[i].nomeDaSala).emit('dadosDaSala', Objeto[i]);
+                         socket.emit('dadosDaSala', Objeto[i]);                  
+               }else{
+                    socket.emit('dadosDaSala', 'erro');
                }
+               Socketio.in(Objeto[i].nomeDaSala).emit('dadosDaSala', Objeto[i]);
+          }
      });
 
      socket.on('Dados', data => {
