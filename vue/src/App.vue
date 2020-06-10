@@ -11,7 +11,8 @@ import {routes} from "./components/Routes.js";
 
 export default {
     mounted(){
-      this.$router.push('/telaInicial');
+      if(this.$router.currentRoute.name != 'telaInicial')
+        this.$router.push('/telaInicial');
     }
 }
 </script>

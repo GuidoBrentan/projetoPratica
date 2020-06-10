@@ -10,11 +10,46 @@ Socketio.on("connection", socket => {
           socket.join('atualizar');
      });
 
+     socket.on('finalizarRodada', nomeDaSala => {
+          Socketio.in(nomeDaSala).emit('acabarRodada');
+     });
+
+     socket.on('passarDados', dados =>{
+          for(var i = 0; i < Objeto.length; i++)
+               if(Objeto[i].nomeDaSala == dados.nomeDaSala){
+                    Objeto[i].objetoDeDados.push(dados);
+                    Objeto[i].contadorDeDados++;
+                    if(Objeto[i].contador == Objeto[i].contadorDeDados)
+                         Socketio.in(dados.nomeDaSala).emit('recebaDados', Objeto[i].objetoDeDados);
+               }
+     
+          
+     });
+
+     socket.on('iniciarRodada', nomeDaSala => {
+          var letras = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+          var indice;
+          do
+               indice = Math.random()*100;
+          while(indice < 1 || indice > 25)
+          
+          var letra = letras[parseInt(indice)];
+
+          for(var i = 0; i < Objeto.length; i++){
+               if(Objeto[i].nomeDaSala = nomeDaSala){
+                    Objeto[i].divVisivel = 1;
+                    Objeto[i].letra = letra;
+                    Objeto[i].qtdRodadas++;
+                    Socketio.in(Objeto[i].nomeDaSala).emit('dadosDaSala', Objeto[i]);
+               }
+          }
+     });
+
      socket.on('entrar', objSocket => {
      for(var i = 0; i < Objeto.length; i++)
-          if(Objeto[i].nomeDaSala == objSocket.nomeDaSala){
-               if(Objeto[i].contador < Objeto[i].numeroMaxJogadores &&
-                  !Objeto[i].jogadores.includes(objSocket.usuario)){
+          if(Objeto[i].nomeDaSala.trim() == objSocket.nomeDaSala.trim()){
+               if(Objeto[i].contador < Objeto[i].numeroMaxJogadores
+                  /*!Objeto[i].jogadores.includes(objSocket.usuario)*/){
                          socket.join(Objeto[i].nomeDaSala);
                          Objeto[i].contador++;
                          Objeto[i].jogadores.push(objSocket.usuario);

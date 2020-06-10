@@ -73,9 +73,10 @@ export default {
                 this.palavras[i] = document.getElementById("a" + i).value;
 
             this.socket = socket_cliente('http://localhost:3000');
-            var objeto= {nomeDaSala: this.nomeDaSala, numeroDeRodadas: this.numeroDeRodadas,
+            var objeto= {nomeDaSala: this.nomeDaSala, numeroMaxDeRodadas: this.numeroDeRodadas,
                          numeroMaxJogadores: this.numeroMaxJogadores, palavras: this.palavras, contador: 0,
-                         jogadores: this.jogadores};
+                         jogadores: this.jogadores, divVisivel: 2, qtdRodadas: 0, letra: null, contadorDeDados: 0,
+                         objetoDeDados: []};
             
             this.socket.emit('Dados', objeto);
             this.socket.on('resultado', data =>{

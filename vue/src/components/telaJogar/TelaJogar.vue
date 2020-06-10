@@ -14,14 +14,21 @@
                         <span v-html="input"></span>
                     </div>
                 </div>
-                <div>
-                    
+                <div id="dadosDoJogo">
+                    <p class="pDados">Letra<br> 
+                    {{dadosDaSala.letra}}</p>
+
+                    <p class="pDados" id="pRodadas">Rodadas<br>
+                    {{dadosDaSala.qtdRodadas}}/{{dadosDaSala.numeroMaxDeRodadas}}</p>
+
+                    <button id="stop" v-on:click="Stop()">Stop</button>
                 </div>
             </fieldset>
         </div>
 
         <div id="avaliando" v-show=visivelAvaliando class="jogando">
             <fieldset>
+                <button v-on:click="IniciarRodada()">Estou pronto!</button>
             </fieldset>
         </div>
 
@@ -41,10 +48,12 @@ export default {
             socket: null,
             nomeDaSala: null,
             dadosDaSala: null,
-            visivelJogando: true,
+            visivelJogando: false,
             visivelAvaliando: false,
             visivelFinalizando: false,
-            items: []
+            items: [],
+            letra: null,
+            objetoDeDados: []
         }
     },
 
@@ -72,8 +81,55 @@ export default {
                 for(var i = 0; i < this.dadosDaSala.palavras.length; i++){
                     var input = "<input type='text' id='"+ this.dadosDaSala.palavras[i] + "' placeholder='" + this.dadosDaSala.palavras[i] + "'>";
                     this.items.push(input);
-        }
+                }
+
+            switch(this.dadosDaSala.divVisivel){
+                case 1: {
+                    this.visivelJogando = true;
+                    this.visivelAvaliando = false;
+                    this.visivelFinalizando = false;
+                }break;
+
+                case 2:{
+                    this.visivelJogando = false;
+                    this.visivelAvaliando = true;
+                    this.visivelFinalizando = false;
+                }break;
+
+                case 3:{
+                    this.visivelJogando = false;
+                    this.visivelAvaliando = false;
+                    this.visivelFinalizando = true;
+                }break;
+            }
         });
+
+        this.socket.on('acabarRodada', data => {
+            var palavrasPreenchidas = [];
+
+            for(var i = 0; i < this.dadosDaSala.palavras.length; i++)
+                palavrasPreenchidas[i] = document.getElementById(this.dadosDaSala.palavras[i]).value;
+
+
+            var dados = {nomeDaSala: this.nomeDaSala, jogador: usuario, palavrasPreenchidas: palavrasPreenchidas};
+
+            this.socket.emit('passarDados', dados);
+        });
+
+        this.socket.on('recebaDados', objetoDeDados =>{
+            this.objetoDeDados = objetoDeDados;
+            console.log(this.objetoDeDados);
+        });
+    },
+
+    methods: {
+        IniciarRodada(){
+            this.socket.emit('iniciarRodada', this.dadosDaSala.nomeDaSala);
+        },
+
+        Stop(){
+            this.socket.emit('finalizarRodada', this.dadosDaSala.nomeDaSala);
+        }
     }
 }
 </script>
@@ -171,7 +227,41 @@ p{
 #colunas{
     float: right;
     margin-top: -500px;
-    margin-right: 200px;
+    margin-right: 205px;
     text-align: center;
+}
+
+#dadosDoJogo{
+    height:500px;
+    width: 170px;
+    overflow: auto;
+    border: 2px;
+    border-style: solid;
+    text-align: center;
+    position: absolute;
+    margin-left: 430px;
+    margin-top: -514px;
+    padding: 5px;
+}
+
+.pDados{
+    margin-right: 44px;
+    font-size: 40px;
+}
+
+#pRodadas{
+    margin-right: 12px;
+}
+
+#stop{
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    border: none;
+    background-color: red;
+    color: white;
+    font-size: 40px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-top: 80px;
 }
 </style>

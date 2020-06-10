@@ -14,7 +14,7 @@
                 </div>
                 <div class="divInterna" id="segundaDiv">
                     <span title="Número de Rodadas"><img src="https://image.flaticon.com/icons/svg/1248/1248846.svg" width="20px" height="20px"></span><br>
-                    {{data.numeroDeRodadas}}
+                    {{data.numeroMaxDeRodadas}}
                 </div>
                 <div class="divInterna" id="terceiraDiv">
                     <span title="Número de Temas"><img src="https://images.vexels.com/media/users/3/151870/isolated/preview/8b1a89d3f271913146d4cd63f3920464---cone-de-tra--o-de-lista-de-verifica----o-m--dica-by-vexels.png" height="20px" width="20px"></span><br>
