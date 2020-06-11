@@ -75,7 +75,7 @@ export default {
             this.socket = socket_cliente('http://localhost:3000');
             var objeto= {nomeDaSala: this.nomeDaSala, numeroMaxDeRodadas: this.numeroDeRodadas,
                          numeroMaxJogadores: this.numeroMaxJogadores, palavras: this.palavras, contador: 0,
-                         jogadores: this.jogadores, divVisivel: 2, qtdRodadas: 0, letra: null, contadorDeDados: 0,
+                         jogadores: this.jogadores, divVisivel: 2, qtdRodadas: 1, letra: null, contadorDeDados: 0,
                          objetoDeDados: []};
             
             this.socket.emit('Dados', objeto);

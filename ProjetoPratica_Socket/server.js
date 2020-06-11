@@ -19,8 +19,12 @@ Socketio.on("connection", socket => {
                if(Objeto[i].nomeDaSala == dados.nomeDaSala){
                     Objeto[i].objetoDeDados.push(dados);
                     Objeto[i].contadorDeDados++;
-                    if(Objeto[i].contador == Objeto[i].contadorDeDados)
+                    Objeto[i].qtdRodadas++;
+                    Objeto[i].divVisivel = 2;
+                    if(Objeto[i].contador == Objeto[i].contadorDeDados){
                          Socketio.in(dados.nomeDaSala).emit('recebaDados', Objeto[i].objetoDeDados);
+                         Socketio.in(dados.nomeDaSala).emit('dadosDaSala', Objeto[i]);
+                    }
                }
      
           
@@ -39,7 +43,6 @@ Socketio.on("connection", socket => {
                if(Objeto[i].nomeDaSala = nomeDaSala){
                     Objeto[i].divVisivel = 1;
                     Objeto[i].letra = letra;
-                    Objeto[i].qtdRodadas++;
                     Socketio.in(Objeto[i].nomeDaSala).emit('dadosDaSala', Objeto[i]);
                }
           }

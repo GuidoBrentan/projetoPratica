@@ -28,7 +28,14 @@
 
         <div id="avaliando" v-show=visivelAvaliando class="jogando">
             <fieldset>
-                <button v-on:click="IniciarRodada()">Estou pronto!</button>
+                <div v-if="dadosDaSala.qtdRodadas > 1">
+                    <div v-for="dado of palavrasASeremExibidas" v-bind:key="dado.palavra">
+                        <p>{{dado.palavra}}</p>
+                        <button v-on:click="Qualifica(dado.palavra)"><img src="https://images.vexels.com/media/users/3/157871/isolated/lists/2f8afedb03309f34bb746cf38cb283ba-icone-de-marca-de-verificacao-basica.png" width="30px" height="30px"></button>
+                        <button v-on:click="Qualifica(dado.palavra)"><img src="https://cdn.pixabay.com/photo/2012/04/12/13/15/red-29985_960_720.png" width="30px" height="30px"></button>
+                    </div>
+                </div>
+                <button v-on:click="IniciarRodada()" id="iniciarRodada">Estou pronto!</button>
             </fieldset>
         </div>
 
@@ -53,7 +60,8 @@ export default {
             visivelFinalizando: false,
             items: [],
             letra: null,
-            objetoDeDados: []
+            objetoDeDados: [],
+            palavrasASeremExibidas: []
         }
     },
 
@@ -88,6 +96,8 @@ export default {
                     this.visivelJogando = true;
                     this.visivelAvaliando = false;
                     this.visivelFinalizando = false;
+                    for(var i = 0; i < this.dadosDaSala.palavras.length; i++)
+                        document.getElementById(this.dadosDaSala.palavras[i]).value = null;
                 }break;
 
                 case 2:{
@@ -107,8 +117,12 @@ export default {
         this.socket.on('acabarRodada', data => {
             var palavrasPreenchidas = [];
 
-            for(var i = 0; i < this.dadosDaSala.palavras.length; i++)
-                palavrasPreenchidas[i] = document.getElementById(this.dadosDaSala.palavras[i]).value;
+            for(var i = 0; i < this.dadosDaSala.palavras.length; i++){
+                var objPalavra = {palavra: document.getElementById(this.dadosDaSala.palavras[i]).value, 
+                                  valida: false}
+
+                palavrasPreenchidas.push(objPalavra); 
+            }
 
 
             var dados = {nomeDaSala: this.nomeDaSala, jogador: usuario, palavrasPreenchidas: palavrasPreenchidas};
@@ -118,7 +132,10 @@ export default {
 
         this.socket.on('recebaDados', objetoDeDados =>{
             this.objetoDeDados = objetoDeDados;
-            console.log(this.objetoDeDados);
+            for(var i = 0; i < this.objetoDeDados.length; i++){
+                this.palavrasASeremExibidas = this.objetoDeDados[i].palavrasPreenchidas;
+                console.log(this.palavrasASeremExibidas);
+            }
         });
     },
 
@@ -129,6 +146,14 @@ export default {
 
         Stop(){
             this.socket.emit('finalizarRodada', this.dadosDaSala.nomeDaSala);
+        },
+
+        Qualifica(palavra){
+            for(var i = 0; i < this.objetoDeDados.length; i++){}
+        },
+
+        Desqualifica(palavra){
+            for(var i = 0; i < this.objetoDeDados.length; i++){}        
         }
     }
 }
