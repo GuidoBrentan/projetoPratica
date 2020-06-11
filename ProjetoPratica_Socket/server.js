@@ -24,10 +24,10 @@ Socketio.on("connection", socket => {
                     if(Objeto[i].contador == Objeto[i].contadorDeDados){
                          Socketio.in(dados.nomeDaSala).emit('recebaDados', Objeto[i].objetoDeDados);
                          Socketio.in(dados.nomeDaSala).emit('dadosDaSala', Objeto[i]);
+                         Objeto[i].objetoDeDados = [];
+                         Objeto[i].contadorDeDados = 0;
                     }
                }
-     
-          
      });
 
      socket.on('iniciarRodada', nomeDaSala => {

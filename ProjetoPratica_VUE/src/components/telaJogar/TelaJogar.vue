@@ -31,9 +31,9 @@
                 <div v-if="dadosDaSala.qtdRodadas > 1">
                     <div v-for="dado of palavrasASeremExibidas" v-bind:key="dado.palavra">
                         <p>{{dado.palavra}}</p>
-                        <button v-on:click="Qualifica(dado.palavra)"><img src="https://images.vexels.com/media/users/3/157871/isolated/lists/2f8afedb03309f34bb746cf38cb283ba-icone-de-marca-de-verificacao-basica.png" width="30px" height="30px"></button>
-                        <button v-on:click="Qualifica(dado.palavra)"><img src="https://cdn.pixabay.com/photo/2012/04/12/13/15/red-29985_960_720.png" width="30px" height="30px"></button>
+                        <button v-on:click="Qualifica(dado.palavra)" id="qualifica"></button>
                     </div>
+                    <button id="proximo" v-on:click="Proximo()">Próximo</button>
                 </div>
                 <button v-on:click="IniciarRodada()" id="iniciarRodada">Estou pronto!</button>
             </fieldset>
@@ -61,7 +61,8 @@ export default {
             items: [],
             letra: null,
             objetoDeDados: [],
-            palavrasASeremExibidas: []
+            palavrasASeremExibidas: [],
+            jogadorEmQueEsta: 0
         }
     },
 
@@ -127,21 +128,22 @@ export default {
 
             var dados = {nomeDaSala: this.nomeDaSala, jogador: usuario, palavrasPreenchidas: palavrasPreenchidas};
 
+            console.log('entrou aqui');
             this.socket.emit('passarDados', dados);
         });
 
         this.socket.on('recebaDados', objetoDeDados =>{
             this.objetoDeDados = objetoDeDados;
-            for(var i = 0; i < this.objetoDeDados.length; i++){
-                this.palavrasASeremExibidas = this.objetoDeDados[i].palavrasPreenchidas;
-                console.log(this.palavrasASeremExibidas);
-            }
+
+            this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
+            this.jogadorEmQueEsta++;
         });
     },
 
     methods: {
         IniciarRodada(){
             this.socket.emit('iniciarRodada', this.dadosDaSala.nomeDaSala);
+            this.jogadorEmQueEsta = 0;
         },
 
         Stop(){
@@ -149,11 +151,30 @@ export default {
         },
 
         Qualifica(palavra){
-            for(var i = 0; i < this.objetoDeDados.length; i++){}
+            for(var i = 0; i < this.objetoDeDados.length; i++){
+                if(i == this.jogadorEmQueEsta){
+                    console.log(this.objetoDeDados[i].palavrasPreenchidas.valida);
+                    this.objetoDeDados[i].palavrasPreenchidas.valida = !(this.objetoDeDados[i].palavrasPreenchidas.valida);
+                    alert(this.objetoDeDados[i].palavrasPreenchidas.valida);
+
+                    var botao = document.getElementById("qualifica");
+
+                    if(this.objetoDeDados[i].palavrasPreenchidas.valida)
+                        botao.style.backgroundColor = "#31FF4E"; 
+                    else
+                        botao.style.backgroundColor = "#FF0F0F";
+                }
+            }
         },
 
-        Desqualifica(palavra){
-            for(var i = 0; i < this.objetoDeDados.length; i++){}        
+        Proximo(){
+            if(this.jogadorEmQueEsta >= this.objetoDeDados.length){
+                alert("Você já validou todas as palavras!");
+                return;
+            }
+
+            this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
+            this.jogadorEmQueEsta++;
         }
     }
 }
@@ -288,5 +309,10 @@ p{
     font-size: 40px;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-top: 80px;
+}
+
+#qualifica{
+    width: 30px;
+    height: 30px;
 }
 </style>
