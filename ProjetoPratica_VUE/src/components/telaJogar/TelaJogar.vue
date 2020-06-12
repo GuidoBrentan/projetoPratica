@@ -31,7 +31,7 @@
                 <div v-if="dadosDaSala.qtdRodadas > 1">
                     <div v-for="dado of palavrasASeremExibidas" v-bind:key="dado.palavra">
                         <p>{{dado.palavra}}</p>
-                        <button v-on:click="Qualifica(dado.palavra)" id="qualifica"></button>
+                        <span v-for="botao of botoes" v-bind:key="botao"><span v-html="botao"></span></span>
                     </div>
                     <button id="proximo" v-on:click="Proximo()">Próximo</button>
                 </div>
@@ -62,7 +62,8 @@ export default {
             letra: null,
             objetoDeDados: [],
             palavrasASeremExibidas: [],
-            jogadorEmQueEsta: 0
+            jogadorEmQueEsta: 0,
+            botoes: []
         }
     },
 
@@ -134,7 +135,11 @@ export default {
 
         this.socket.on('recebaDados', objetoDeDados =>{
             this.objetoDeDados = objetoDeDados;
-
+            for(var i = 0; i < objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas.length; i ++){
+                var button = "<button v-on:click='Qualifica("+ objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + ")' id='" + objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + "' class='buttonQualifica' width= '30px' height='30px'></button>";
+                this.botoes.push(button);
+                console.log(button);
+            }
             this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
             this.jogadorEmQueEsta++;
         });
@@ -152,18 +157,24 @@ export default {
 
         Qualifica(palavra){
             for(var i = 0; i < this.objetoDeDados.length; i++){
+                console.log('entro no primeiro for');
                 if(i == this.jogadorEmQueEsta){
-                    console.log(this.objetoDeDados[i].palavrasPreenchidas.valida);
-                    this.objetoDeDados[i].palavrasPreenchidas.valida = !(this.objetoDeDados[i].palavrasPreenchidas.valida);
-                    alert(this.objetoDeDados[i].palavrasPreenchidas.valida);
+                    console.log('entro no primeiro if')
+                    for(var a = 0; a < this.objetoDeDados[i].palavrasPreenchidas.length; a++){
+                        console.log('entro no segundo for')
+                        if(this.objetoDeDados[i].palavrasPreenchidas[a].palavra == palavra){
+                            console.log('entro no segundo if')
+                            this.objetoDeDados[i].palavrasPreenchidas[a].valida = !(this.objetoDeDados[i].palavrasPreenchidas[a].valida);
+                            console.log(this.objetoDeDados[i].palavrasPreenchidas[a].valida);
 
-                    var botao = document.getElementById("qualifica");
-
-                    if(this.objetoDeDados[i].palavrasPreenchidas.valida)
-                        botao.style.backgroundColor = "#31FF4E"; 
-                    else
-                        botao.style.backgroundColor = "#FF0F0F";
+                        if(this.objetoDeDados[i].palavrasPreenchidas[a].valida)
+                            this.msgValida = "Qualificado";
+                        else
+                            this.msgValida = "Desqualificado";
+                    }
+                    }
                 }
+                
             }
         },
 
@@ -171,6 +182,11 @@ export default {
             if(this.jogadorEmQueEsta >= this.objetoDeDados.length){
                 alert("Você já validou todas as palavras!");
                 return;
+            }
+
+            for(var i = 0; i < objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas.length; i ++){
+                var button = "<button v-on:click='Qualifica(" + objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + ")' id='" + objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + "' class='buttonQualifica' width= '30px' height='30px'></button>";
+                this.botoes.push(button);
             }
 
             this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
