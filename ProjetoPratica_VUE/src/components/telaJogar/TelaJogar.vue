@@ -30,8 +30,10 @@
             <fieldset>
                 <div v-if="dadosDaSala.qtdRodadas > 1">
                     <div v-for="dado of palavrasASeremExibidas" v-bind:key="dado.palavra">
-                        <p>{{dado.palavra}}</p>
-                        <span v-for="botao of botoes" v-bind:key="botao"><span v-html="botao"></span></span>
+                        <p>{{dado.palavra}}</p><br>
+                    </div>
+                    <div v-for="palavra of botoes" v-bind:key='palavra'>
+                        <button @click="Qualifica(palavra)" class="buttonQualifica" id="palavra"></button>
                     </div>
                     <button id="proximo" v-on:click="Proximo()">Próximo</button>
                 </div>
@@ -48,7 +50,7 @@
 
 <script>
 import socket_cliente from 'socket.io-client';
-
+s
 export default {
     data(){
         return {
@@ -136,10 +138,10 @@ export default {
         this.socket.on('recebaDados', objetoDeDados =>{
             this.objetoDeDados = objetoDeDados;
             for(var i = 0; i < objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas.length; i ++){
-                var button = "<button v-on:click='Qualifica("+ objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + ")' id='" + objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + "' class='buttonQualifica' width= '30px' height='30px'></button>";
+                var button = objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra;
                 this.botoes.push(button);
-                console.log(button);
             }
+
             this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
             this.jogadorEmQueEsta++;
         });
@@ -156,25 +158,23 @@ export default {
         },
 
         Qualifica(palavra){
+            alert('entrou aqui');
             for(var i = 0; i < this.objetoDeDados.length; i++){
                 console.log('entro no primeiro for');
                 if(i == this.jogadorEmQueEsta){
                     console.log('entro no primeiro if')
-                    for(var a = 0; a < this.objetoDeDados[i].palavrasPreenchidas.length; a++){
-                        console.log('entro no segundo for')
+                    for(var a = 0; a < this.objetoDeDados[i].palavrasPreenchidas.length; a++)
                         if(this.objetoDeDados[i].palavrasPreenchidas[a].palavra == palavra){
                             console.log('entro no segundo if')
                             this.objetoDeDados[i].palavrasPreenchidas[a].valida = !(this.objetoDeDados[i].palavrasPreenchidas[a].valida);
                             console.log(this.objetoDeDados[i].palavrasPreenchidas[a].valida);
 
                         if(this.objetoDeDados[i].palavrasPreenchidas[a].valida)
-                            this.msgValida = "Qualificado";
+                            document.getElementById(this.objetoDeDados[i].palavrasPreenchidas[a].palavra).style.backgroundColor = '#688A08';
                         else
-                            this.msgValida = "Desqualificado";
-                    }
-                    }
+                            document.getElementById(this.objetoDeDados[i].palavrasPreenchidas[a].palavra).style.backgroundColor = '#DF0101';
+                    }   
                 }
-                
             }
         },
 
@@ -185,8 +185,8 @@ export default {
             }
 
             for(var i = 0; i < objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas.length; i ++){
-                var button = "<button v-on:click='Qualifica(" + objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + ")' id='" + objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra + "' class='buttonQualifica' width= '30px' height='30px'></button>";
-                this.botoes.push(button);
+                var button = objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra;
+                this.botoes.push(button);            
             }
 
             this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
@@ -222,6 +222,11 @@ input{
     border-radius: 5px;
     border-style: none;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.buttonQualifica{
+    width: 30px;
+    height: 30px;
 }
 </style>
 <style scoped>
@@ -325,10 +330,5 @@ p{
     font-size: 40px;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-top: 80px;
-}
-
-#qualifica{
-    width: 30px;
-    height: 30px;
 }
 </style>
