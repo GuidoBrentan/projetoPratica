@@ -4,8 +4,8 @@
             <fieldset>
                 <div id="jogadoresNaSala">
                     <h1>Jogadores</h1>
-                    <div v-for="jogador of dadosDaSala.jogadores" v-bind:key="jogador" id="caixaJogador">
-                        <img id="imgUser" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png" width="30px" height="30px"><p>{{jogador}}</p>
+                    <div v-for="jogador of dadosDaSala.jogadores" v-bind:key="jogador.usuario" id="caixaJogador">
+                        <img id="imgUser" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png" width="30px" height="30px"><p>{{jogador.usuario}}<br>{{jogador.pontos}} pontos</p>
                     </div>
                 </div>
                 <div id="colunas">
@@ -32,17 +32,24 @@
                     <div v-for="dado of palavrasASeremExibidas" v-bind:key="dado.palavra">
                         <p>{{dado.palavra}}</p><br>
                     </div>
-                    <div v-for="palavra of botoes" v-bind:key='palavra'>
-                        <button @click="Qualifica(palavra)" class="buttonQualifica" id="palavra"></button>
+                    <div v-for="dado of palavrasASeremExibidas" v-bind:key='dado.palavra'>
+                        <button v-bind:id='dado.palavra' class="buttonQualifica" v-on:click='Qualifica(dado.palavra)'></button>
                     </div>
                     <button id="proximo" v-on:click="Proximo()">Próximo</button>
+                    <button id="enviar" v-on:click="Enviar()">Validar</button>
                 </div>
-                <button v-on:click="IniciarRodada()" id="iniciarRodada">Estou pronto!</button>
+                <button v-on:click="IniciarRodada()" id="iniciarRodada" v-show="visivelEstouPronto">Estou pronto!</button>
             </fieldset>
         </div>
 
         <div id="finalizando" v-show=visivelFinalizando class="jogando">
             <fieldset>
+                <div id="jogadoresNaSala">
+                    <h1>Fim de Jogo</h1>
+                    <div v-for="jogador of dadosDaSala.jogadores" v-bind:key="jogador.usuario" id="caixaJogador">
+                        <img id="imgUser" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png" width="30px" height="30px"><p>{{jogador.usuario}}<br>{{jogador.pontos}} pontos</p>
+                    </div>
+                </div>
             </fieldset>
         </div>
     </div>
@@ -50,7 +57,7 @@
 
 <script>
 import socket_cliente from 'socket.io-client';
-s
+
 export default {
     data(){
         return {
@@ -60,12 +67,12 @@ export default {
             visivelJogando: false,
             visivelAvaliando: false,
             visivelFinalizando: false,
+            visivelEstouPronto: true,
             items: [],
             letra: null,
             objetoDeDados: [],
             palavrasASeremExibidas: [],
-            jogadorEmQueEsta: 0,
-            botoes: []
+            jogadorEmQueEsta: 0
         }
     },
 
@@ -122,8 +129,12 @@ export default {
             var palavrasPreenchidas = [];
 
             for(var i = 0; i < this.dadosDaSala.palavras.length; i++){
-                var objPalavra = {palavra: document.getElementById(this.dadosDaSala.palavras[i]).value, 
-                                  valida: false}
+                if(document.getElementById(this.dadosDaSala.palavras[i]).value == "")
+                    var objPalavra = {palavra: "O usuario não conseguiu digitar =(", 
+                                      valida: false, contadorValida: 0};
+                else                
+                    var objPalavra = {palavra: document.getElementById(this.dadosDaSala.palavras[i]).value, 
+                                      valida: false, contadorValida: 0};
 
                 palavrasPreenchidas.push(objPalavra); 
             }
@@ -137,13 +148,10 @@ export default {
 
         this.socket.on('recebaDados', objetoDeDados =>{
             this.objetoDeDados = objetoDeDados;
-            for(var i = 0; i < objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas.length; i ++){
-                var button = objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra;
-                this.botoes.push(button);
-            }
 
             this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
-            this.jogadorEmQueEsta++;
+
+            this.visivelEstouPronto = false;
         });
     },
 
@@ -158,7 +166,6 @@ export default {
         },
 
         Qualifica(palavra){
-            alert('entrou aqui');
             for(var i = 0; i < this.objetoDeDados.length; i++){
                 console.log('entro no primeiro for');
                 if(i == this.jogadorEmQueEsta){
@@ -170,7 +177,7 @@ export default {
                             console.log(this.objetoDeDados[i].palavrasPreenchidas[a].valida);
 
                         if(this.objetoDeDados[i].palavrasPreenchidas[a].valida)
-                            document.getElementById(this.objetoDeDados[i].palavrasPreenchidas[a].palavra).style.backgroundColor = '#688A08';
+                            document.getElementById(this.objetoDeDados[i].palavrasPreenchidas[a].palavra).style.backgroundColor = '#00FF7F';
                         else
                             document.getElementById(this.objetoDeDados[i].palavrasPreenchidas[a].palavra).style.backgroundColor = '#DF0101';
                     }   
@@ -179,18 +186,20 @@ export default {
         },
 
         Proximo(){
+            this.jogadorEmQueEsta++;
             if(this.jogadorEmQueEsta >= this.objetoDeDados.length){
                 alert("Você já validou todas as palavras!");
+                this.visivelEstouPronto = true;
                 return;
             }
 
-            for(var i = 0; i < objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas.length; i ++){
-                var button = objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas[i].palavra;
-                this.botoes.push(button);            
-            }
-
             this.palavrasASeremExibidas = this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas;
-            this.jogadorEmQueEsta++;
+        },
+
+        Enviar(){
+            var objValida = {jogador: this.dadosDaSala.jogadores[this.jogadorEmQueEsta], dados: this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas};
+            this.socket.emit('validacao', objValida);
+            alert("Validação confirmada! Clique em próximo");
         }
     }
 }
@@ -227,8 +236,11 @@ input{
 .buttonQualifica{
     width: 30px;
     height: 30px;
+    background-color: '#DF0101';
 }
 </style>
+
+
 <style scoped>
 #div{
     width: 1355px;
@@ -276,7 +288,7 @@ p{
 
 #caixaJogador{
     width: 100px;
-    height: 50px;
+    height: 70px;
 }
 
 #jogadoresNaSala{
