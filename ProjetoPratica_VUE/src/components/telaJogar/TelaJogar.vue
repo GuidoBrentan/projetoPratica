@@ -29,16 +29,23 @@
         <div id="avaliando" v-show=visivelAvaliando class="jogando">
             <fieldset>
                 <div v-if="dadosDaSala.qtdRodadas > 1">
-                    <div v-for="dado of palavrasASeremExibidas" v-bind:key="dado.palavra">
-                        <p>{{dado.palavra}}</p><br>
+                    <h1>Valide as Palavras</h1>
+                    <div class="palavra">
+                        <div v-for="dado of palavrasASeremExibidas" v-bind:key="dado.palavra">
+                            <p class="pPalavra">{{dado.palavra}}</p><br>
+                        </div>
                     </div>
-                    <div v-for="dado of palavrasASeremExibidas" v-bind:key='dado.palavra'>
-                        <button v-bind:id='dado.palavra' class="buttonQualifica" v-on:click='Qualifica(dado.palavra)'></button>
+                    <div class="buttonPalavra">
+                        <div v-for="dado of palavrasASeremExibidas" v-bind:key='dado.palavra'>
+                            <button v-bind:id='dado.palavra' class="buttonQualifica" v-on:click='Qualifica(dado.palavra)' style="background-color: '#DF0101';"></button>
+                        </div>
                     </div>
-                    <button id="proximo" v-on:click="Proximo()">Próximo</button>
-                    <button id="enviar" v-on:click="Enviar()">Validar</button>
+                        <button id="proximo" v-on:click="Proximo()" class="botoesEspeciais">Próximo</button>
+                        <button id="enviar" v-on:click="Enviar()" class="botoesEspeciais">Validar</button>
                 </div>
-                <button v-on:click="IniciarRodada()" id="iniciarRodada" v-show="visivelEstouPronto">Estou pronto!</button>
+                <div class="botoesDeAvaliar">
+                    <button v-on:click="IniciarRodada()" id="iniciarRodada" v-show="visivelEstouPronto">Estou pronto!</button>
+                </div>
             </fieldset>
         </div>
 
@@ -50,6 +57,7 @@
                         <img id="imgUser" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png" width="30px" height="30px"><p>{{jogador.usuario}}<br>{{jogador.pontos}} pontos</p>
                     </div>
                 </div>
+                <button id="acabarJogo" v-on:click='Sair()'>Sair</button>
             </fieldset>
         </div>
     </div>
@@ -115,6 +123,11 @@ export default {
                     this.visivelJogando = false;
                     this.visivelAvaliando = true;
                     this.visivelFinalizando = false;
+                    for(var i = 0; i < this.objetoDeDados.length; i++)
+                        if(i == this.jogadorEmQueEsta)
+                            for(var a = 0; a < this.objetoDeDados[i].palavrasPreenchidas.length; a++)
+                                document.getElementById(this.objetoDeDados[i].palavrasPreenchidas[a].palavra).style.backgroundColor = '#DF0101';
+
                 }break;
 
                 case 3:{
@@ -200,6 +213,36 @@ export default {
             var objValida = {jogador: this.dadosDaSala.jogadores[this.jogadorEmQueEsta], dados: this.objetoDeDados[this.jogadorEmQueEsta].palavrasPreenchidas};
             this.socket.emit('validacao', objValida);
             alert("Validação confirmada! Clique em próximo");
+        },
+
+        Sair(){
+            var linkASP = "https://localhost:5001/api/jogador"
+            var jogador = this.$session.get('jogador');
+            var pontos = 0;
+
+            for(var a = 0; a < this.dadosDaSala.jogadores.length; a++)
+                if(this.dadosDaSala.jogadores[a].usuario == jogador.usuario)
+                    pontos += this.dadosDaSala.jogadores[a].pontos;
+
+            var jogadorJson = JSON.parse('{"usuario": "' + jogador.usuario + '", "nome": "' + jogador.nome
+                                        + '", "email": "' + jogador.email + '", "senha": "' + jogador.senha
+                                        + '", "pontos":' +  pontos + '}');
+
+            this.$http
+            .post(linkASP, jogadorJson);
+
+            this.$http
+            .delete(linkASP + "/" + jogador.id);
+
+            this.$session.remove('jogador');
+
+            this.$http
+            .get("https://localhost:5001/api/jogador/getJogadoresByUsuario/" + jogador.usuario)
+            .then(res => res.json())
+            .then(dadosRetornados => {
+                this.$session.set('jogador', dadosRetornados);
+                this.$router.push('/telaPrincipal');
+            });
         }
     }
 }
@@ -236,7 +279,6 @@ input{
 .buttonQualifica{
     width: 30px;
     height: 30px;
-    background-color: '#DF0101';
 }
 </style>
 
@@ -266,6 +308,24 @@ fieldset{
     align-items: center;
     width: 1355px;
     height: 641px;
+}
+
+.palavra{
+    width: 80px;
+    margin-left: 240px;
+    text-align: left;
+    position: absolute;
+}
+
+.pPalavra{
+    margin-top: 0px;
+}
+
+.buttonPalavra{
+    margin-top: 10px;
+    margin-left: 170px;
+    width: 100px;
+    position: absolute;
 }
 
 #jogadoresNaSala{
@@ -342,5 +402,73 @@ p{
     font-size: 40px;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin-top: 80px;
+}
+
+.botoesEspeciais{
+    margin-top: 10px;
+    padding: 2px;
+    height: 40px;
+    width: 80px;
+    border-radius: 5px;
+    border-style: none;
+    background-color: rgb(255, 0, 0);
+    color: aliceblue;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+    position: relative;
+}
+
+#iniciarRodada{
+    height: 70px;
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    margin-top: 10px;
+    padding: 2px;
+    height: 60px;
+    width: 80px;
+    border-radius: 5px;
+    border-style: none;
+    background-color: rgb(255, 0, 0);
+    color: aliceblue;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+}
+
+#avaliando{
+    text-align: center;
+}
+
+#enviar{
+    position: absolute;
+    margin-top: 300px;
+    margin-left: 100px;
+}
+
+#proximo{
+    position: absolute;
+    margin-top: 300px;
+    margin-left: -50px;
+}
+
+#iniciarRodada{
+    position: absolute;
+    margin-top: 290px;
+    margin-left: -200px;
+}
+
+#acabarJogo{
+    position: absolute;
+    margin-left: 330px;
+    margin-top: -320px;
+    padding: 2px;
+    height: 60px;
+    width: 80px;
+    border-radius: 5px;
+    border-style: none;
+    background-color: rgb(255, 0, 0);
+    color: aliceblue;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
 }
 </style>

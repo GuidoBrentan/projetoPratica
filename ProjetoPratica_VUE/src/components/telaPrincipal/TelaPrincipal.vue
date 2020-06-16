@@ -2,7 +2,7 @@
   <div id="corpo">
     <fieldset id="jogo">
       <div id="txtJogador">
-        <p>{{txtJogador}} <img id="imgConfig" src="https://image.flaticon.com/icons/png/512/45/45712.png" width="30" height="30"></p>
+        <p>{{txtJogador}}</p>
       </div>
       <div id="txtUsuario">
         <img id="imgUser" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/User_Avatar_2.png" width="100px" height="100px">

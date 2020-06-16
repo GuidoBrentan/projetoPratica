@@ -44,7 +44,7 @@ export default {
                     var linkASP = "https://localhost:5001/api/jogador"
                     var jogadorJson = JSON.parse('{"usuario": "' + this.usuario + '", "nome": "' + this.nome
                                         + '", "email": "' + this.email + '", "senha": "' + this.senha
-                                        + '", "estaConect": "N"}');
+                                        + '", "pontos": 0}');
 
                     this.$http
                     .post(linkASP, jogadorJson)
